@@ -35,10 +35,10 @@ This creates an encryption object, it can be saved for the session. It accepts t
 
 ``crypto = getbox(pk,auth)``
 
-#####nonce():
-Nonce generates a nonce, you'll need this for the next two steps. Keep in mind that this can only be used for the next two steps once, and must be regenerated.
+#####getnonce():
+Getnonce generates a nonce, you'll need this for the next two steps. Keep in mind that this can only be used for the next two steps once, and must be regenerated.
 
-``nonce = nonce()``
+``nonce = getnonce()``
 
 #####payload_push(crypto,auth,nonce,tox_id,name,optional=privacy,optional=bio):
 This generates and encrypts a payload for us to send to a server, this is a payload for adding/editing records. This accepts the ``getbox`` object, the ``getauth`` object, the ``nonce`` generated earlier, a Tox ID, a name, an optional number for being listed or not (0 listed, 1 not), and an optional bio. Save this so we can push it later.
@@ -76,7 +76,7 @@ domain = 'toxme.se'
 toxme_pk = getpub(domain) 
 auth = getauth()
 crypto = getbox(auth,toxme_pk)
-nonce = nonce();
+nonce = getnonce();
 payload = payload_push(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D", "test_sean")
 print push(domain,payload,auth,nonce)
 ```

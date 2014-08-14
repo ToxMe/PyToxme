@@ -63,7 +63,7 @@ def getauth(secret=''):
 	else:
 		return PrivateKey.generate()
 
-def nonce():
+def getnonce():
 	return nacl.utils.random(Box.NONCE_SIZE)
 
 def getbox(auth,key):
@@ -109,6 +109,6 @@ def simple_delete(domain,toxid,secret):
 	pk = getpub(domain) 
 	auth = getauth(secret)
 	crypto = getbox(auth,pk)
-	nonce = nonce();
+	nonce = getnonce();
 	payload = payload_delete(crypto,auth,nonce,toxid)
 	return delete(domain,payload,auth,nonce)
