@@ -1,5 +1,7 @@
-import nacl.utils, json, urllib2, time, err
+import nacl.utils, json, urllib2, time
 from nacl.public import PrivateKey, Box
+
+import err #local files are special
 
 def _psh2srv(rs):
 	try:
@@ -8,15 +10,16 @@ def _psh2srv(rs):
 		try:
 			return stream
 		except:
-			raise err.psh2sev('unknown error')
+			raise err.srv('unknown error')
 	except urllib2.HTTPError, err:
 		stream = err.read()
 		try:
 			return stream
 		except:
-			raise err.psh2sev('unknown error')
+			raise err.srv('unknown error')
 	except:
-		raise err.psh2sev('invalid domain')
+		import err
+		raise err.srv('invalid domain')
 
 def _pushauth(act,domain,payload,auth,r_nonce):
 	nonce = nacl.encoding.Base64Encoder.encode(r_nonce).decode("utf8")
@@ -42,7 +45,7 @@ def getpub(domain):
 	try:
 		return json.loads(data)['key']
 	except:
-		raise error.psh2srv('unable to find public key')
+		raise err.psh2srv('unable to find public key')
 
 
 def lookup(domain,name):

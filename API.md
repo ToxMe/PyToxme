@@ -82,7 +82,7 @@ The PyTox API returns the return objects from https://github.com/Tox/toxme.se/bl
 ###Errors:
 All errors explain what happened in plain text.
 
-If err.psh2srv is raised an issue accessing the server was encountered.
+If err.srv is raised an issue accessing the server was encountered.
 
 If err.api was raised a user error (invalid secret, etc) was encountered.
 

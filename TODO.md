@@ -1,4 +1,5 @@
-- setup.py support
-- error checking
+- <s>setup.py support</s>
+- <s>error checking</s>
 - simple(er?) API
 - may as well refactor it again
+- Write something documenting every little step
