@@ -21,9 +21,9 @@ packages                =               ['PyToxme']
 
 setup(name              =               'PyToxme',
       version           =               VERSION,
-      description       =               'Python program for doing toxme stuffs.',
-      author            =               'Toxy',
-      author_email      =               'toxy@blah.com',
+      description       =               'Python API for toxme',
+      author            =               'Tox Foundation',
+      author_email      =               'support@tox.im',
       url               =               'https://github.com/Tox/PyToxme',
       packages          =               packages,
       package_dir       =               {'PyToxme' : abspath(path_join(pathname, 'PyToxme/'))},
