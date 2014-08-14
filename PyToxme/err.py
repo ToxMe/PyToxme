@@ -37,3 +37,5 @@ def toxme_err(code):
 		return 'Lookup failed because that user does not exist on the domain'
 	elif code == -43:
 		return 'Lookup failed because of an error on our side.'
+	else:
+		return 'An unknown toxme error occured, additionally it did not return a valid code ({})'.format(code)

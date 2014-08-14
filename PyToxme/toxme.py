@@ -27,20 +27,14 @@ def _pushauth(act,domain,payload,auth,r_nonce):
 	post = '{{"action":{}, "public_key":"{}", "encrypted":"{}", "nonce":"{}"}}'.format(act,pub,payload,nonce)
 	rs = urllib2.Request('https://' + domain + '/api',data=post)
 
-	data = _psh2srv(rs)
-	try:
-		return json.loads(data)
-	except:
-		return data
+	return json.loads(_psh2srv(rs))
 
 def _toxme_err(data):
-	try:
-		if data['c'] == '0':
-			return data
-		else:
-			raise err.toxme(data['c'])
-	except:
-		raise err.srv(data)
+	code = int(data['c'])
+	if code == 0:
+		return data
+	else:
+		raise err.toxme(data['c'])
 
 def getpub(domain):
 	rs = urllib2.Request('https://' + domain + '/pk')
@@ -101,17 +95,19 @@ def delete(domain,payload,auth,r_nonce):
 	return _toxme_err(_pushauth(2,domain,payload,auth,nonce))
 
 def simple_push(domain,name,toxid,secret='',privacy=1,bio=''):
+	nonce = getnonce()
 	pk = getpub(domain) 
 	auth = getauth(secret)
 	crypto = getbox(auth,pk)
-	nonce = nonce()
 	payload = payload_push(crypto,auth,nonce,toxid,name,privacy,bio)
 	return push(domain,payload,auth,nonce)
 
 def simple_delete(domain,toxid,secret):
+	nonce = getnonce()
 	pk = getpub(domain) 
 	auth = getauth(secret)
 	crypto = getbox(auth,pk)
-	nonce = getnonce()
 	payload = payload_delete(crypto,auth,nonce,toxid)
 	return delete(domain,payload,auth,nonce)
+
+simple_push('toxme.se','bbyplshurtme','8C9CB434DFFABD18DD83B82A04CACAD0C20AEBDBA0CD1485C9B577F761800C3239F1766FF00E')
