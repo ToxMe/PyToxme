@@ -52,7 +52,7 @@ This pushes a payload with the intent to delete data. It accepts the domain from
 
 ``print delete(domain,payload,auth,nonce)``
 
-==FAQ:
+##FAQ:
 The PyTox API returns the return objects from https://github.com/Tox/toxme.se/blob/master/api.md#return-values in dictionary format for ease of access.
 
 If pushing gives ``An error occured`` you've done something seriously wrong because the data returned isn't correct at all.
