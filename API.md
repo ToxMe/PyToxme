@@ -1,5 +1,11 @@
 The PyToxme API is simple.
 
+######Install PyToxme:
+``sudo python setup install``
+
+######Import PyToxme:
+``import PyToxme.toxme``
+
 ##anonmous lookups:
 #####getpub(domain):
 This returns the public key for a domain
