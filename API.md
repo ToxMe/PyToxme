@@ -52,6 +52,16 @@ This pushes a payload with the intent to delete data. It accepts the domain from
 
 ``print delete(domain,payload,auth,nonce)``
 
+#####simple_push(domain,name,toxid,optional=secret,optional=privacy,optional=bio):
+This easy to use function does a push. It takes the name of the domain, the name you want, the Tox ID, an optional secret for ``getauth()``, an optional privacy flag, and an optional bio. Warning: You must use the Tox IDs secret to edit.
+
+``simple_push('toxme.se',test_sean','8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D'):``
+
+#####simple_delete(domain,toxid,secret):
+This easy to use function does a delete. It takes the name of the domain, the Tox ID, and the secret for ``getauth()`` Warning: You must use the Tox IDs secret to edit.
+
+``simple_delete('toxme.se','8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D','REDACTED'):``
+
 ###Authenticated API example:
 ```
 domain = 'toxme.se'
