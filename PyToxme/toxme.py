@@ -109,5 +109,3 @@ def simple_delete(domain,toxid,secret):
 	crypto = getbox(auth,pk)
 	payload = payload_delete(crypto,auth,nonce,toxid)
 	return delete(domain,payload,auth,nonce)
-
-simple_push('toxme.se','bbyplshurtme','8C9CB434DFFABD18DD83B82A04CACAD0C20AEBDBA0CD1485C9B577F761800C3239F1766FF00E')
