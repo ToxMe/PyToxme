@@ -23,7 +23,12 @@ def _pushauth(act,domain,payload,auth,r_nonce):
 	pub = auth.public_key.encode(encoder=nacl.encoding.HexEncoder)
 	post = '{{"action":{}, "public_key":"{}", "encrypted":"{}", "nonce":"{}"}}'.format(act,pub,payload,nonce)
 	rs = urllib2.Request('https://' + domain + '/api',data=post)
-	return _psh2srv(rs)
+
+	data = _psh2srv(rs)
+	try:
+		return json.loads(data)
+	except:
+		return data
 
 def getpub(domain):
 	rs = urllib2.Request('https://' + domain + '/pk')
@@ -42,8 +47,14 @@ def lookup(domain,name):
 	except:
 		return data
 
-def getauth():
-	return PrivateKey.generate()
+def getauth(secret=''):
+	if secret != '':
+		try:
+			return nacl.public.PrivateKey(secret,encoder=nacl.encoding.HexEncoder)
+		except:
+			return 'Invalid secret'
+	else:
+		return PrivateKey.generate()
 
 def nonce():
 	return nacl.utils.random(Box.NONCE_SIZE)
@@ -57,7 +68,7 @@ def payload_push(box,auth,nonce,tox_id,name,privacy=1,bio=''):
 	return box.encrypt(payload,nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
 
 def payload_delete(box,auth,nonce,tox_id):
-	payload = '{{"public_key": "{}","timestamp":{}}}'.format(tox_id,int(time.time()))
+	payload = '{{"public_key": "{}","timestamp":{}}}'.format(tox_id[0:64],int(time.time()))
 	return box.encrypt(payload,nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
 
 def push(domain,payload,auth,r_nonce):
