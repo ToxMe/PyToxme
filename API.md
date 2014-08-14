@@ -60,8 +60,21 @@ auth = getauth()
 crypto = getbox(auth,toxme_pk)
 nonce = nonce();
 payload = payload_push(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D", "test_sean")
-record = push(domain,payload,auth,nonce)
+print push(domain,payload,auth,nonce)
 ```
+This will actually raise an error as the record exists.
+```
+Traceback (most recent call last):
+  File "/home/sean/toxme.lookup.py", line 90, in <module>
+    print push(domain,payload,auth,nonce)
+  File "/home/sean/toxme.lookup.py", line 79, in push
+    return _toxme_err(_pushauth(1,domain,payload,auth,r_nonce))
+  File "/home/sean/toxme.lookup.py", line 37, in _toxme_err
+    raise err.toxme(data['c'])
+err.toxme: 'Name is taken.'
+[Finished in 2.6s with exit code 1
+```
+
 
 ##FAQ:
 The PyTox API returns the return objects from https://github.com/Tox/toxme.se/blob/master/api.md#return-values in dictionary format for ease of access. This will change soon, I just have to start dealing with the returned json more.
