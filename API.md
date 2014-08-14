@@ -4,7 +4,9 @@ The PyToxme API is simple.
 ``sudo python setup install``
 
 ######Import PyToxme:
-``import PyToxme.toxme``
+``import PyToxme``
+
+Now just use ``PyToxme.getpub(domain)`` like any other Python module and you're done.
 
 ##anonmous lookups:
 #####getpub(domain):
