@@ -39,7 +39,7 @@ def _toxme_err(data):
 			return data
 		else:
 			raise err.toxme(data['c'])
-	else:
+	except:
 		raise err.srv(data)
 
 def getpub(domain):
