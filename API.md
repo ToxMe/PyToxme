@@ -53,8 +53,13 @@ This pushes a payload with the intent to delete data. It accepts the domain from
 ``print delete(domain,payload,auth,nonce)``
 
 ##FAQ:
-The PyTox API returns the return objects from https://github.com/Tox/toxme.se/blob/master/api.md#return-values in dictionary format for ease of access.
+The PyTox API returns the return objects from https://github.com/Tox/toxme.se/blob/master/api.md#return-values in dictionary format for ease of access. This will change soon, I just have to start dealing with the returned json more.
 
-If pushing gives ``An error occured`` you've done something seriously wrong because the data returned isn't correct at all.
+###Errors:
+All errors explain what happened in plain text.
 
-If pushing gives you ``Invalid domain`` check your domain
+If err.psh2srv is raised an issue accessing the server was encountered.
+
+If err.api was raised a user error (invalid secret, etc) was encountered.
+
+If err.toxme was raised an error on the toxme server was encountered, this usually provides a plain text message describing it. An example of this: ``err.toxme: 'Name is taken.'``
