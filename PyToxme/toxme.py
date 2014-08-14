@@ -42,7 +42,7 @@ def getpub(domain):
 	try:
 		return json.loads(data)['key']
 	except:
-		raise err.psh2srv('unable to find public key')
+		raise err.srv('unable to find public key')
 
 
 def lookup(domain,name):
