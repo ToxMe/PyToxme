@@ -34,10 +34,13 @@ def _pushauth(act,domain,payload,auth,r_nonce):
 		return data
 
 def _toxme_err(data):
-	if data['c'] == 0:
-		return data
+	try:
+		if data['c'] == '0':
+			return data
+		else:
+			raise err.toxme(data['c'])
 	else:
-		raise err.toxme(data['c'])
+		raise err.srv(data)
 
 def getpub(domain):
 	rs = urllib2.Request('https://' + domain + '/pk')
@@ -101,7 +104,7 @@ def simple_push(domain,name,toxid,secret='',privacy=1,bio=''):
 	pk = getpub(domain) 
 	auth = getauth(secret)
 	crypto = getbox(auth,pk)
-	nonce = nonce();
+	nonce = nonce()
 	payload = payload_push(crypto,auth,nonce,toxid,name,privacy,bio)
 	return push(domain,payload,auth,nonce)
 
@@ -109,6 +112,6 @@ def simple_delete(domain,toxid,secret):
 	pk = getpub(domain) 
 	auth = getauth(secret)
 	crypto = getbox(auth,pk)
-	nonce = getnonce();
+	nonce = getnonce()
 	payload = payload_delete(crypto,auth,nonce,toxid)
 	return delete(domain,payload,auth,nonce)
