@@ -1,0 +1,4 @@
+- setup.py support
+- error checking
+- simple(er?) API
+- may as well refactor it again
