@@ -52,6 +52,17 @@ This pushes a payload with the intent to delete data. It accepts the domain from
 
 ``print delete(domain,payload,auth,nonce)``
 
+###Authenticated API example:
+```
+domain = 'toxme.se'
+toxme_pk = getpub(domain) 
+auth = getauth()
+crypto = getbox(auth,toxme_pk)
+nonce = nonce();
+payload = payload_push(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D", "test_sean")
+record = push(domain,payload,auth,nonce)
+```
+
 ##FAQ:
 The PyTox API returns the return objects from https://github.com/Tox/toxme.se/blob/master/api.md#return-values in dictionary format for ease of access. This will change soon, I just have to start dealing with the returned json more.
 
