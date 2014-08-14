@@ -30,22 +30,26 @@ def _pushauth(act,domain,payload,auth,r_nonce):
 	except:
 		return data
 
+def _toxme_err(data):
+	if data['c'] == 0:
+		return data
+	else:
+		raise err.toxme(data['c'])
+
 def getpub(domain):
 	rs = urllib2.Request('https://' + domain + '/pk')
 	data = _psh2srv(rs)
 	try:
 		return json.loads(data)['key']
 	except:
-		return data
+		raise error.psh2srv('unable to find public key')
+
 
 def lookup(domain,name):
 	post = '{{"action":3, "name":"{}" }}'.format(name)
 	rs = urllib2.Request('https://' + domain + '/api',data=post)
 	data = _psh2srv(rs)
-	try:
-		return json.loads(data)
-	except:
-		return data
+	_toxme_err(json.loads(data))
 
 def getauth(secret=''):
 	if secret != '':
@@ -72,17 +76,7 @@ def payload_delete(box,auth,nonce,tox_id):
 	return box.encrypt(payload,nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
 
 def push(domain,payload,auth,r_nonce):
-	return _pushauth(1,domain,payload,auth,r_nonce)
+	return _toxme_err(_pushauth(1,domain,payload,auth,r_nonce))
 
 def delete(domain,payload,auth,r_nonce):
-	return _pushauth(2,domain,payload,auth,r_nonce)
-
-domain = 'toxme.se'
-toxme_pk = getpub(domain) 
-auth = getauth()
-crypto = getbox(auth,toxme_pk)
-nonce = nonce();
-payload = payload_push(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D", "test_sean")
-record = push(domain,payload,auth,nonce)
-print record
-print lookup(domain,'sean')['public_key']
+	return _toxme_err(_pushauth(2,domain,payload,auth,r_nonce))
