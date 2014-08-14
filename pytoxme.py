@@ -1,4 +1,4 @@
-import nacl.utils, json, urllib2, time, base64
+import nacl.utils, json, urllib2, time, err
 from nacl.public import PrivateKey, Box
 
 def _psh2srv(rs):
@@ -8,15 +8,15 @@ def _psh2srv(rs):
 		try:
 			return stream
 		except:
-			return 'An error occured'
+			raise err.psh2sev('unknown error')
 	except urllib2.HTTPError, err:
 		stream = err.read()
 		try:
 			return stream
 		except:
-			return 'An error occured'
+			raise err.psh2sev('unknown error')
 	except:
-		return 'Invalid domain'
+		raise err.psh2sev('invalid domain')
 
 def _pushauth(act,domain,payload,auth,r_nonce):
 	nonce = nacl.encoding.Base64Encoder.encode(r_nonce).decode("utf8")
@@ -52,7 +52,7 @@ def getauth(secret=''):
 		try:
 			return nacl.public.PrivateKey(secret,encoder=nacl.encoding.HexEncoder)
 		except:
-			return 'Invalid secret'
+			raise err.api('invalid secret')
 	else:
 		return PrivateKey.generate()
 
@@ -76,3 +76,13 @@ def push(domain,payload,auth,r_nonce):
 
 def delete(domain,payload,auth,r_nonce):
 	return _pushauth(2,domain,payload,auth,r_nonce)
+
+domain = 'toxme.se'
+toxme_pk = getpub(domain) 
+auth = getauth()
+crypto = getbox(auth,toxme_pk)
+nonce = nonce();
+payload = payload_push(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D", "test_sean")
+record = push(domain,payload,auth,nonce)
+print record
+print lookup(domain,'sean')['public_key']
