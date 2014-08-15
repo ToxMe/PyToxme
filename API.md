@@ -10,14 +10,15 @@ Now just use ``PyToxme.getpub(domain)`` like any other Python module and you're 
 
 ##anonmous lookups:
 #####getpub(domain):
-This returns the public key for a domain
+This returns the public key for a domain. If no arguments are passed it assumes ``toxme.se``
 
 ``pk = getpub('toxme.se')``
 
-#####lookup(domain,user):
+#####lookup(user,domain):
 This looks up an entry, both user and user@domain are suported. Note that it returns a json object.
+If no domain is passed it assumes ``toxme.se``
 
-``mykey = lookup('toxme.se','sean')['public_key']``
+``mykey = lookup('sean','toxme.se')['public_key']``
 
 The json object looks like
 
