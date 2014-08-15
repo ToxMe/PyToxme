@@ -24,8 +24,8 @@ def _psh2srv(rs):
 def _pushauth(act,domain,payload,auth,r_nonce):
 	nonce = nacl.encoding.Base64Encoder.encode(r_nonce).decode("utf8")
 	pub = auth.public_key.encode(encoder=nacl.encoding.HexEncoder)
-	post = '{{"action":{}, "public_key":"{}", "encrypted":"{}", "nonce":"{}"}}'.format(act,pub,payload,nonce)
-	rs = urllib2.Request('https://' + domain + '/api',data=post)
+	post = {"action":act, "public_key":pub, "encrypted":payload, "nonce":nonce}
+	rs = urllib2.Request('https://' + domain + '/api',data=json.dumps(post))
 
 	return json.loads(_psh2srv(rs))
 
@@ -46,10 +46,10 @@ def getpub(domain):
 
 
 def lookup(domain,name):
-	post = '{{"action":3, "name":"{}" }}'.format(name)
-	rs = urllib2.Request('https://' + domain + '/api',data=post)
+	post = {"action":3, "name":name}
+	rs = urllib2.Request('https://' + domain + '/api',data=json.dumps(post))
 	data = _psh2srv(rs)
-	_toxme_err(json.loads(data))
+	return _toxme_err(json.loads(data))
 
 def getauth(secret=''):
 	if secret != '':
@@ -74,16 +74,16 @@ def getbox(auth,key):
 		raise err.api('invalid server key')
 
 def payload_push(box,auth,nonce,tox_id,name,privacy=1,bio=''):
-	payload = '{{"tox_id": "{}", "name":"{}", "privacy":{},"bio":"{}","timestamp":{}}}'.format(tox_id,name,privacy,bio,int(time.time()))
+	payload = {"tox_id": tox_id, "name":name, "privacy":privacy,"bio":bio,"timestamp":int(time.time())}
 	try:
-		return box.encrypt(payload,nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
+		return box.encrypt(json.dumps(payload),nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
 	except:
 		raise err.api('Error encrypting payload.')
 
 def payload_delete(box,auth,nonce,tox_id):
-	payload = '{{"public_key": "{}","timestamp":{}}}'.format(tox_id[0:64],int(time.time()))
+	payload = {"public_key": tox_id[0:64],"timestamp":int(time.time())}
 	try:
-		return box.encrypt(payload,nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
+		return box.encrypt(json.dumps(payload),nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
 	except:
 		raise err.api('Error encrypting payload.')
 
