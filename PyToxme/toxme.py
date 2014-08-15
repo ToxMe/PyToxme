@@ -25,7 +25,7 @@ def _pushauth(act,domain,payload,auth,r_nonce):
 	nonce = nacl.encoding.Base64Encoder.encode(r_nonce).decode("utf8")
 	pub = auth.public_key.encode(encoder=nacl.encoding.HexEncoder)
 	post = {"action":act, "public_key":pub, "encrypted":payload, "nonce":nonce}
-	rs = urllib2.Request('https://' + domain + '/api',data=json.dumps(post))
+	rs = urllib2.Request('https://{}/api'.format(domain),data=json.dumps(post))
 
 	return json.loads(_psh2srv(rs))
 
@@ -36,8 +36,8 @@ def _toxme_err(data):
 	else:
 		raise err.toxme(data['c'])
 
-def getpub(domain):
-	rs = urllib2.Request('https://' + domain + '/pk')
+def getpub(domain='toxme.se'):
+	rs = urllib2.Request('https://{}/pk'.format(domain))
 	data = _psh2srv(rs)
 	try:
 		return json.loads(data)['key']
@@ -45,9 +45,9 @@ def getpub(domain):
 		raise err.srv('unable to find public key')
 
 
-def lookup(domain,name):
+def lookup(name,domain='toxme.se'):
 	post = {"action":3, "name":name}
-	rs = urllib2.Request('https://' + domain + '/api',data=json.dumps(post))
+	rs = urllib2.Request('https://{}/api'.format(domain),data=json.dumps(post))
 	data = _psh2srv(rs)
 	return _toxme_err(json.loads(data))
 
