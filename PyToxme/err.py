@@ -31,6 +31,10 @@ def toxme_err(code):
 		return 'Name is taken.'
 	elif code == -26:
 		return 'The public key given is bound to a name already.'
+	elif code == -30:
+		return 'Name not found.'
+	elif code == -31:
+		return 'Invalid Tox ID passed.'
 	elif code == -41:
 		return 'Lookup failed because of an error on the other domains side.'
 	elif code == -42:

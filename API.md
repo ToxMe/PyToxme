@@ -22,7 +22,19 @@ If no domain is passed it assumes ``toxme.se``
 
 The json object looks like
 
-``{u'public_key': u'1076A72D9BEDFF6CCC8D2E9A69E0EF6FED9968AC6DCAC84A908E9F65B4E2E321AB8E3BB05FE1', u'c': 0, u'regdomain': u'toxme.se', u'name': u'sean', u'url': u'tox://sean@toxme.se', u'verify': {u'status': 1, u'detail': u'Good (signed by local authority)'}, u'source': 1, u'version': u'Tox V1 (local)'}``
+``{u'public_key': u'56A1ADE4B65B86BCD51CC73E2CD4E542179F47959FE3E0E21B4B0ACDADE51855D34D34D37CB5', u'c': 0, u'regdomain': u'toxme.se', u'name': u'groupbot', u'url': u'tox:groupbot@toxme.se', u'verify': {u'status': 1, u'detail': u'Good (signed by local authority)'}, u'source': 1, u'version': u'Tox V1 (local)'}``
+
+#####Reverse lookup(id,domain):
+This preforms a reverse lookup on a name. Note that it returns a json object. Also note that entries marked private do not appear.
+If no domain is passed it assumes ``toxme.se``
+
+``myname = rlookup('56A1ADE4B65B86BCD51CC73E2CD4E542179F47959FE3E0E21B4B0ACDADE51855D34D34D37CB5','toxme.se')['name']``
+
+Tip: Note the r before lookup.
+
+The json object looks like
+
+``{u'c': 0, u'name': u'groupbot'}``
 
 ##authenticated API:
 ####Warning: editing or deleting your record? use your Tox ID's secret for getauth()

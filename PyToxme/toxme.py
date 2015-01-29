@@ -51,6 +51,12 @@ def lookup(name,domain='toxme.se'):
 	data = _psh2srv(rs)
 	return _toxme_err(json.loads(data))
 
+def rlookup(id,domain='toxme.se'):
+	post = {"action":5, "id":id}
+	rs = urllib2.Request('https://{}/api'.format(domain),data=json.dumps(post))
+	data = _psh2srv(rs)
+	return _toxme_err(json.loads(data))
+
 def getauth(secret=''):
 	if secret != '':
 		try:
