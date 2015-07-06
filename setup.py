@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 
 # Imports
-from distutils.core import setup
+from setuptools import setup
 from os import remove
 from os.path import abspath
 from os.path import join as path_join
@@ -9,12 +9,21 @@ from os import getcwd
 from shutil import copyfile, rmtree
 import glob
 
-import PyToxme
-
+classifiers = """\
+License :: OSI Approved :: BSD
+Intended Audience :: Developers
+Development Status :: 3 - Alpha
+Topic :: Internet
+Topic :: System :: Networking
+Programming Language :: Python
+Operating System :: MacOS :: MacOS X
+Operating System :: Microsoft :: Windows
+Operating System :: POSIX
+"""
 
 pathname                =               getcwd()
 
-VERSION                 =               '0.0.1'
+VERSION                 =               '0.0.2'
 
 
 packages                =               ['PyToxme']
@@ -24,9 +33,12 @@ setup(name              =               'PyToxme',
       description       =               'Python API for toxme',
       author            =               'Tox Foundation',
       author_email      =               'support@tox.im',
+      license           =               'BSD',
+      platforms         =               ["any"],
       url               =               'https://github.com/ToxMe/PyToxme',
       packages          =               packages,
       package_dir       =               {'PyToxme' : abspath(path_join(pathname, 'PyToxme/'))},
+      install_requires  = ["pynacl"],
       data_files        =               [('share/PyToxme', ['README.md', 'LICENSE', 'API.md', 'TODO.md'])],
 
         )
