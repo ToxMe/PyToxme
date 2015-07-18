@@ -93,6 +93,12 @@ def payload_delete(box,auth,nonce,tox_id):
 	except:
 		raise err.api('Error encrypting payload.')
 
+def payload_resetpassword(box,auth,nonce,tox_id):
+	payload = {"public_key": tox_id[0:64],"timestamp":int(time.time())}
+	try:
+		return box.encrypt(json.dumps(payload),nonce,encoder=nacl.encoding.Base64Encoder).ciphertext
+	except:
+		raise err.api('Error encrypting payload.')
 
 def push(domain,payload,auth,nonce):
 	return _toxme_err(_pushauth(1,domain,payload,auth,nonce))
@@ -100,9 +106,12 @@ def push(domain,payload,auth,nonce):
 def delete(domain,payload,auth,r_nonce):
 	return _toxme_err(_pushauth(2,domain,payload,auth,nonce))
 
+def reset(domain,payload,auth,r_nonce):
+	return _toxme_err(_pushauth(6,domain,payload,auth,nonce))
+
 def simple_push(domain,name,toxid,secret='',privacy=1,bio=''):
 	nonce = getnonce()
-	pk = getpub(domain) 
+	pk = getpub(domain)
 	auth = getauth(secret)
 	crypto = getbox(auth,pk)
 	payload = payload_push(crypto,auth,nonce,toxid,name,privacy,bio)
@@ -110,8 +119,16 @@ def simple_push(domain,name,toxid,secret='',privacy=1,bio=''):
 
 def simple_delete(domain,toxid,secret):
 	nonce = getnonce()
-	pk = getpub(domain) 
+	pk = getpub(domain)
 	auth = getauth(secret)
 	crypto = getbox(auth,pk)
 	payload = payload_delete(crypto,auth,nonce,toxid)
 	return delete(domain,payload,auth,nonce)
+
+def simple_reset(domain,toxid,secret):
+	nonce = getnonce()
+	pk = getpub(domain)
+	auth = getauth(secret)
+	crypto = getbox(auth,pk)
+	payload = payload_reset(crypto,auth,nonce,toxid)
+	return reset(domain,payload,auth,nonce)

@@ -61,7 +61,12 @@ This generates and encrypts a payload for us to send to a server, this is a payl
 #####payload_delete(crypto,auth,nonce,tox_id):
 This generates and encrypts a payload for us to send to a server, this is a payload for deleting records. This accepts the ``getbox`` object, the ``getauth`` object, the ``nonce`` generated earlier, and a Tox ID.
 
-``payload = payload_push(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D")``
+``payload = payload_delete(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D")``
+
+#####payload_reset(crypto,auth,nonce,tox_id):
+This resets users online passwords. This accepts the ``getbox`` object, the ``getauth`` object, the ``nonce`` generated earlier, and a Tox ID.
+
+``payload = payload_reset(crypto,auth,nonce,"8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D")``
 
 #####push(domain,payload,auth,nonce):
 This pushes a payload with the intent to push data. It accepts the domain from earlier, the payload from ``payload_push``, the auth from ``getauth``, and the ``nonce`` from earlier.
@@ -73,6 +78,9 @@ This pushes a payload with the intent to delete data. It accepts the domain from
 
 ``print delete(domain,payload,auth,nonce)``
 
+#####reset(domain,payload,auth,nonce):
+This pushes a payload requesting a new password. It accepts the domain from earlier, the payload from ``payload_reset``, the auth from ``getauth``, and the ``nonce`` from earlier. Note that ownership of the ID is used for authentication.
+
 #####simple_push(domain,name,toxid,optional=secret,optional=privacy,optional=bio):
 This easy to use function does a push. It takes the name of the domain, the name you want, the Tox ID, an optional secret for ``getauth()``, an optional privacy flag, and an optional bio. Warning: You must use the Tox IDs secret to edit.
 
@@ -83,10 +91,15 @@ This easy to use function does a delete. It takes the name of the domain, the To
 
 ``simple_delete('toxme.se','8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D','REDACTED'):``
 
+#####simple_reset(domain,toxid,secret):
+This easy to use function resets a password. It takes the name of the domain, the Tox ID, and the secret for ``getauth()`` Warning: You must use the Tox IDs secret (``in getauth()``) to verify you own the ID.
+
+``simple_delete('toxme.se','8719E62D498152B3CD53CAB6FB8853E2C3023FBBA2F9FF6906B331FFDAE1EB5219B6C764AC8D','REDACTED'):``
+
 ###Authenticated API example:
 ```
 domain = 'toxme.se'
-toxme_pk = getpub(domain) 
+toxme_pk = getpub(domain)
 auth = getauth()
 crypto = getbox(auth,toxme_pk)
 nonce = getnonce();
